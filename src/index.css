@@ -2,14 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Ramen Yard Custom Styles */
-/* Minimal helpers for ramen palette when needed outside tailwind tokens */
-.bg-ramen-cream { background-color: #FFF3E0; }
-.bg-ramen-beige { background-color: #F7E7CE; }
-.text-ramen-red { color: #D7263D; }
-.text-ramen-dark { color: #0B0A0A; }
-.border-ramen-sesame { border-color: #D1C7B7; }
-.ring-ramen-gold { --tw-ring-color: #E0A106; }
+/* Sweet Quest Custom Styles */
+/* Custom helpers for Sweet Quest palette */
+.bg-sweet-cream { background-color: #FAEBD7; }
+.bg-sweet-green { background-color: #7ACF3B; }
+.bg-sweet-green-light { background-color: #9EDB6B; }
+.text-sweet-green { color: #7ACF3B; }
+.text-sweet-dark { color: #2D3748; }
+.border-sweet-green { border-color: #7ACF3B; }
+.ring-sweet-green { --tw-ring-color: #7ACF3B; }
+
+/* Sweet Quest Background Pattern */
+.sweet-pattern {
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(122, 207, 59, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(122, 207, 59, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(122, 207, 59, 0.05) 0%, transparent 50%);
+}
 
 /* Hide scrollbar for mobile nav */
 .scrollbar-hide {

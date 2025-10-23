@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useCart } from './hooks/useCart';
+import { useAffiliates } from './hooks/useAffiliates';
 import Header from './components/Header';
 import SubNav from './components/SubNav';
 import Menu from './components/Menu';
@@ -13,8 +14,14 @@ import { useMenu } from './hooks/useMenu';
 function MainApp() {
   const cart = useCart();
   const { menuItems } = useMenu();
+  const { getAffiliateByCode } = useAffiliates();
   const [currentView, setCurrentView] = React.useState<'menu' | 'cart' | 'checkout'>('menu');
   const [selectedCategory, setSelectedCategory] = React.useState<string>('all');
+  const [referralInfo, setReferralInfo] = React.useState<{
+    referralCode: string;
+    affiliateName: string;
+    affiliateId: string;
+  } | null>(null);
 
   const handleViewChange = (view: 'menu' | 'cart' | 'checkout') => {
     setCurrentView(view);
@@ -24,13 +31,49 @@ function MainApp() {
     setSelectedCategory(categoryId);
   };
 
+  // Handle referral code detection and validation
+  React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const referralCode = urlParams.get('ref');
+    
+    if (referralCode) {
+      // Store referral code in session storage
+      sessionStorage.setItem('sweet_quest_referral', referralCode);
+      
+      // Validate affiliate and get details
+      getAffiliateByCode(referralCode).then(affiliate => {
+        if (affiliate) {
+          setReferralInfo({
+            referralCode,
+            affiliateName: affiliate.name,
+            affiliateId: affiliate.id
+          });
+        }
+      });
+    } else {
+      // Check if referral code exists in session storage
+      const storedReferral = sessionStorage.getItem('sweet_quest_referral');
+      if (storedReferral) {
+        getAffiliateByCode(storedReferral).then(affiliate => {
+          if (affiliate) {
+            setReferralInfo({
+              referralCode: storedReferral,
+              affiliateName: affiliate.name,
+              affiliateId: affiliate.id
+            });
+          }
+        });
+      }
+    }
+  }, [getAffiliateByCode]);
+
   // Filter menu items based on selected category
   const filteredMenuItems = selectedCategory === 'all' 
     ? menuItems 
     : menuItems.filter(item => item.category === selectedCategory);
 
   return (
-    <div className="min-h-screen bg-cream-50 font-inter">
+    <div className="min-h-screen bg-white font-sweet">
       <Header 
         cartItemsCount={cart.getTotalItems()}
         onCartClick={() => handleViewChange('cart')}
@@ -42,8 +85,6 @@ function MainApp() {
         <Menu 
           menuItems={filteredMenuItems}
           addToCart={cart.addToCart}
-          cartItems={cart.cartItems}
-          updateQuantity={cart.updateQuantity}
         />
       )}
       
@@ -64,6 +105,7 @@ function MainApp() {
           cartItems={cart.cartItems}
           totalPrice={cart.getTotalPrice()}
           onBack={() => handleViewChange('cart')}
+          referralInfo={referralInfo}
         />
       )}
       

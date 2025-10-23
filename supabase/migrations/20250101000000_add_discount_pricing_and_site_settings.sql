@@ -92,9 +92,9 @@ CREATE TRIGGER update_site_settings_updated_at
 
 -- Insert default site settings
 INSERT INTO site_settings (id, value, type, description) VALUES
-  ('site_name', 'Beracah Cafe', 'text', 'The name of the cafe/restaurant'),
-  ('site_logo', 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop', 'image', 'The logo image URL for the site'),
-  ('site_description', 'Welcome to Beracah Cafe - Your perfect coffee destination', 'text', 'Short description of the cafe'),
+  ('site_name', 'Sweet Quest', 'text', 'The name of the cafe/restaurant'),
+  ('site_logo', '/logo.jpg', 'image', 'The logo image URL for the site'),
+  ('site_description', 'Beat the Heat with a Burst of Freshness', 'text', 'Short description of the cafe'),
   ('currency', 'PHP', 'text', 'Currency symbol for prices'),
   ('currency_code', 'PHP', 'text', 'Currency code for payments')
 ON CONFLICT (id) DO NOTHING;

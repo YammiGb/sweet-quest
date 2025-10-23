@@ -75,3 +75,58 @@ export interface SiteSettings {
   currency: string;
   currency_code: string;
 }
+
+// Affiliate and Referral Types
+export interface Affiliate {
+  id: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  referral_code: string;
+  status: 'active' | 'inactive' | 'suspended';
+  notes?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Order {
+  id: string;
+  customer_name: string;
+  customer_phone: string;
+  service_type: ServiceType;
+  total_amount: number;
+  order_details: any; // JSONB
+  payment_method?: string;
+  payment_reference?: string;
+  status: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
+  referred_by?: string;
+  referral_code?: string;
+  affiliate_id?: string;
+  delivery_address?: string;
+  pickup_time?: string;
+  party_size?: number;
+  special_instructions?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ReferralAnalytics {
+  affiliate_id: string;
+  affiliate_name: string;
+  referral_code: string;
+  total_referrals: number;
+  total_sales: number;
+  last_referral_date?: string;
+  referrals_this_week: number;
+  referrals_this_month: number;
+}
+
+export interface ReferralStats {
+  total_affiliates: number;
+  active_affiliates: number;
+  total_referrals: number;
+  total_sales: number;
+  avg_order_value: number;
+  top_affiliate_name?: string;
+  top_affiliate_sales: number;
+}

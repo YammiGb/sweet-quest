@@ -33,23 +33,26 @@ export const useCart = () => {
     }, [] as (AddOn & { quantity: number })[]);
     
     setCartItems(prev => {
+      // For items without variations or add-ons, just use the base item ID
       const existingItem = prev.find(cartItem => 
         cartItem.id === item.id && 
-        cartItem.selectedVariation?.id === variation?.id &&
-        JSON.stringify(cartItem.selectedAddOns?.map(a => `${a.id}-${a.quantity || 1}`).sort()) === JSON.stringify(groupedAddOns?.map(a => `${a.id}-${a.quantity}`).sort())
+        (!cartItem.selectedVariation || cartItem.selectedVariation.id === variation?.id) &&
+        (!cartItem.selectedAddOns || cartItem.selectedAddOns.length === 0) &&
+        (!variation && !addOns)
       );
       
       if (existingItem) {
+        // Update quantity of existing item
         return prev.map(cartItem =>
           cartItem === existingItem
             ? { ...cartItem, quantity: cartItem.quantity + quantity }
             : cartItem
         );
       } else {
-        const uniqueId = `${item.id}-${variation?.id || 'default'}-${addOns?.map(a => a.id).join(',') || 'none'}`;
+        // Add new item - use base item ID for simple items
         return [...prev, { 
           ...item,
-          id: uniqueId,
+          id: item.id, // Use the original item ID for simple items
           quantity,
           selectedVariation: variation,
           selectedAddOns: groupedAddOns || [],
