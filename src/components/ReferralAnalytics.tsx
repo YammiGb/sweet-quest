@@ -54,7 +54,7 @@ const ReferralAnalytics: React.FC = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-sweet-green-light">
             <div className="flex items-center">
               <div className="p-2 bg-sweet-green-light rounded-lg">
-                <Users className="h-6 w-6 text-sweet-green" />
+                <Users className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-sweet-text-light">Total Affiliates</p>
@@ -66,7 +66,7 @@ const ReferralAnalytics: React.FC = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-sweet-green-light">
             <div className="flex items-center">
               <div className="p-2 bg-sweet-green-light rounded-lg">
-                <TrendingUp className="h-6 w-6 text-sweet-green" />
+                <TrendingUp className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-sweet-text-light">Total Referrals</p>
@@ -78,7 +78,7 @@ const ReferralAnalytics: React.FC = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-sweet-green-light">
             <div className="flex items-center">
               <div className="p-2 bg-sweet-green-light rounded-lg">
-                <DollarSign className="h-6 w-6 text-sweet-green" />
+                <DollarSign className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-sweet-text-light">Total Sales</p>
@@ -90,7 +90,7 @@ const ReferralAnalytics: React.FC = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-sweet-green-light">
             <div className="flex items-center">
               <div className="p-2 bg-sweet-green-light rounded-lg">
-                <Star className="h-6 w-6 text-sweet-green" />
+                <Star className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-sweet-text-light">Avg Order Value</p>
