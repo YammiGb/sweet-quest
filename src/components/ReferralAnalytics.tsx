@@ -3,7 +3,7 @@ import { TrendingUp, Users, DollarSign, Star, Calendar, Award } from 'lucide-rea
 import { useReferrals } from '../hooks/useReferrals';
 
 const ReferralAnalytics: React.FC = () => {
-  const { analytics, stats, orders, loading, error } = useReferrals();
+  const { analytics, stats, orders, loading, error, updateOrderStatus, fetchStats } = useReferrals();
 
   if (loading) {
     return (
@@ -43,10 +43,25 @@ const ReferralAnalytics: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-sweet font-bold text-sweet-dark">Referral Analytics</h2>
-        <div className="text-sm text-sweet-text-light">
-          Last updated: {new Date().toLocaleString()}
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => fetchStats()}
+            className="px-4 py-2 bg-sweet-green text-white rounded-lg hover:bg-sweet-green-dark transition-colors duration-200 text-sm"
+          >
+            Refresh Stats
+          </button>
+          <div className="text-sm text-sweet-text-light">
+            Last updated: {new Date().toLocaleString()}
+          </div>
         </div>
       </div>
+
+      {/* Debug Info */}
+      {stats && (
+        <div className="bg-gray-100 p-4 rounded-lg text-sm">
+          <strong>Debug Info:</strong> Total Sales: {stats.total_sales}, Total Referrals: {stats.total_referrals}
+        </div>
+      )}
 
       {/* Stats Overview */}
       {stats && (
@@ -161,7 +176,7 @@ const ReferralAnalytics: React.FC = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-sweet-green">
+                    <div className={`text-sm font-medium ${order.status === 'cancelled' ? 'text-red-500 line-through' : 'text-sweet-green'}`}>
                       {formatCurrency(order.total || 0)}
                     </div>
                   </td>
@@ -171,10 +186,15 @@ const ReferralAnalytics: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <select
                       value={order.status}
-                      onChange={(e) => {
-                        // Update order status
-                        console.log('Updating order status:', order.id, e.target.value);
-                        // You can add updateOrderStatus function here
+                      onChange={async (e) => {
+                        try {
+                          const newStatus = e.target.value as any;
+                          await updateOrderStatus(order.id, newStatus);
+                          console.log('Order status updated successfully');
+                        } catch (error) {
+                          console.error('Failed to update order status:', error);
+                          alert('Failed to update order status. Please try again.');
+                        }
                       }}
                       className={`text-xs font-semibold rounded-full px-2 py-1 border-0 ${
                         order.status === 'confirmed' 

@@ -62,10 +62,10 @@ SELECT
   a.name as affiliate_name,
   a.referral_code,
   COUNT(o.id) as total_referrals,
-  COALESCE(SUM(o.total), 0) as total_sales,
+  COALESCE(SUM(CASE WHEN o.status != 'cancelled' THEN o.total ELSE 0 END), 0) as total_sales,
   MAX(o.created_at) as last_referral_date,
-  COUNT(CASE WHEN o.created_at >= NOW() - INTERVAL '7 days' THEN 1 END) as referrals_this_week,
-  COUNT(CASE WHEN o.created_at >= NOW() - INTERVAL '30 days' THEN 1 END) as referrals_this_month
+  COUNT(CASE WHEN o.created_at >= NOW() - INTERVAL '7 days' AND o.status != 'cancelled' THEN 1 END) as referrals_this_week,
+  COUNT(CASE WHEN o.created_at >= NOW() - INTERVAL '30 days' AND o.status != 'cancelled' THEN 1 END) as referrals_this_month
 FROM affiliates a
 LEFT JOIN orders o ON a.id = o.affiliate_id
 WHERE a.status = 'active'
@@ -146,9 +146,34 @@ BEGIN
   SELECT 
     (SELECT COUNT(*) FROM affiliates) as total_affiliates,
     (SELECT COUNT(*) FROM affiliates WHERE status = 'active') as active_affiliates,
-    (SELECT COUNT(*) FROM orders WHERE affiliate_id IS NOT NULL) as total_referrals,
-    (SELECT COALESCE(SUM(total), 0) FROM orders WHERE affiliate_id IS NOT NULL) as total_sales,
-    (SELECT COALESCE(AVG(total), 0) FROM orders WHERE affiliate_id IS NOT NULL) as avg_order_value,
+    (SELECT COUNT(*) FROM orders WHERE affiliate_id IS NOT NULL AND status != 'cancelled') as total_referrals,
+    (SELECT COALESCE(SUM(total), 0) FROM orders WHERE affiliate_id IS NOT NULL AND status != 'cancelled') as total_sales,
+    (SELECT COALESCE(AVG(total), 0) FROM orders WHERE affiliate_id IS NOT NULL AND status != 'cancelled') as avg_order_value,
+    (SELECT affiliate_name FROM referral_analytics ORDER BY total_sales DESC LIMIT 1) as top_affiliate_name,
+    (SELECT total_sales FROM referral_analytics ORDER BY total_sales DESC LIMIT 1) as top_affiliate_sales;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Force update get_referral_stats function to ensure cancelled orders are excluded
+DROP FUNCTION IF EXISTS get_referral_stats();
+CREATE FUNCTION get_referral_stats()
+RETURNS TABLE (
+  total_affiliates BIGINT,
+  active_affiliates BIGINT,
+  total_referrals BIGINT,
+  total_sales DECIMAL,
+  avg_order_value DECIMAL,
+  top_affiliate_name VARCHAR,
+  top_affiliate_sales DECIMAL
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    (SELECT COUNT(*) FROM affiliates) as total_affiliates,
+    (SELECT COUNT(*) FROM affiliates WHERE status = 'active') as active_affiliates,
+    (SELECT COUNT(*) FROM orders WHERE affiliate_id IS NOT NULL AND status != 'cancelled') as total_referrals,
+    (SELECT COALESCE(SUM(total), 0) FROM orders WHERE affiliate_id IS NOT NULL AND status != 'cancelled') as total_sales,
+    (SELECT COALESCE(AVG(total), 0) FROM orders WHERE affiliate_id IS NOT NULL AND status != 'cancelled') as avg_order_value,
     (SELECT affiliate_name FROM referral_analytics ORDER BY total_sales DESC LIMIT 1) as top_affiliate_name,
     (SELECT total_sales FROM referral_analytics ORDER BY total_sales DESC LIMIT 1) as top_affiliate_sales;
 END;
@@ -265,3 +290,23 @@ CREATE TRIGGER update_affiliates_updated_at
 SELECT column_name, data_type, is_nullable, column_default
 FROM information_schema.columns
 WHERE table_name = 'affiliates' AND column_name = 'updated_at';
+
+-- Update analytics to exclude cancelled orders from sales calculations
+-- This prevents affiliate exploits by not counting cancelled orders in sales
+
+-- Update referral_analytics view to exclude cancelled orders from sales
+CREATE OR REPLACE VIEW referral_analytics AS
+SELECT 
+  a.id as affiliate_id,
+  a.name as affiliate_name,
+  a.referral_code,
+  COUNT(o.id) as total_referrals,
+  COALESCE(SUM(CASE WHEN o.status != 'cancelled' THEN o.total ELSE 0 END), 0) as total_sales,
+  MAX(o.created_at) as last_referral_date,
+  COUNT(CASE WHEN o.created_at >= NOW() - INTERVAL '7 days' AND o.status != 'cancelled' THEN 1 END) as referrals_this_week,
+  COUNT(CASE WHEN o.created_at >= NOW() - INTERVAL '30 days' AND o.status != 'cancelled' THEN 1 END) as referrals_this_month
+FROM affiliates a
+LEFT JOIN orders o ON a.id = o.affiliate_id
+WHERE a.status = 'active'
+GROUP BY a.id, a.name, a.referral_code
+ORDER BY total_sales DESC;

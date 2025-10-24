@@ -56,7 +56,7 @@ export const useReferrals = () => {
         // Fallback: calculate stats manually
         const [affiliatesResult, ordersResult] = await Promise.all([
           supabase.from('affiliates').select('id, status'),
-          supabase.from('orders').select('total, affiliate_id').not('affiliate_id', 'is', null)
+          supabase.from('orders').select('total, affiliate_id, status').not('affiliate_id', 'is', null).neq('status', 'cancelled')
         ]);
 
         if (affiliatesResult.error || ordersResult.error) {
