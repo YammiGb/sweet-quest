@@ -56,12 +56,6 @@ const ReferralAnalytics: React.FC = () => {
         </div>
       </div>
 
-      {/* Debug Info */}
-      {stats && (
-        <div className="bg-gray-100 p-4 rounded-lg text-sm">
-          <strong>Debug Info:</strong> Total Sales: {stats.total_sales}, Total Referrals: {stats.total_referrals}
-        </div>
-      )}
 
       {/* Stats Overview */}
       {stats && (
