@@ -105,12 +105,12 @@ Please confirm this order to proceed. Thank you for choosing Sweet Quest! 🍯
       // Save order to database (matching existing table structure)
       const orderData = {
         customer_name: customerName,
-        customer_phone: contactNumber,
+        contact_number: contactNumber,
         service_type: serviceType,
-        total_amount: totalPrice,
+        total: totalPrice,
         payment_method: selectedPaymentMethod?.name || paymentMethod,
-        payment_reference: undefined,
-        special_instructions: notes || undefined,
+        reference_number: undefined,
+        notes: notes || undefined,
         delivery_address: serviceType === 'delivery' ? address : undefined,
         pickup_time: serviceType === 'pickup' ? timeInfo : undefined,
         party_size: serviceType === 'dine-in' ? partySize : undefined,
@@ -118,20 +118,7 @@ Please confirm this order to proceed. Thank you for choosing Sweet Quest! 🍯
         // Add referral tracking fields
         referred_by: referralInfo?.affiliateName || undefined,
         referral_code: referralInfo?.referralCode || undefined,
-        affiliate_id: referralInfo?.affiliateId || undefined,
-        // Add order details as JSON
-        order_details: {
-          items: cartItems.map(item => ({
-            id: item.id,
-            name: item.name,
-            quantity: item.quantity,
-            unitPrice: item.totalPrice,
-            variation: item.selectedVariation || null,
-            addOns: item.selectedAddOns || []
-          })),
-          subtotal: totalPrice,
-          landmark: serviceType === 'delivery' ? landmark : undefined
-        }
+        affiliate_id: referralInfo?.affiliateId || undefined
       };
 
       console.log('Attempting to save order:', orderData);
@@ -140,6 +127,7 @@ Please confirm this order to proceed. Thank you for choosing Sweet Quest! 🍯
     } catch (error) {
       console.error('Failed to save order to database:', error);
       console.error('Error details:', error);
+      alert(`Failed to save order to database: ${error instanceof Error ? error.message : 'Unknown error'}`);
       // Continue with Messenger anyway
     }
 

@@ -92,12 +92,11 @@ export interface Affiliate {
 export interface Order {
   id: string;
   customer_name: string;
-  customer_phone: string;
+  contact_number: string;
   service_type: ServiceType;
-  total_amount: number;
-  order_details: any; // JSONB
+  total: number;
   payment_method?: string;
-  payment_reference?: string;
+  reference_number?: string;
   status: 'pending' | 'confirmed' | 'preparing' | 'ready' | 'delivered' | 'cancelled';
   referred_by?: string;
   referral_code?: string;
@@ -105,7 +104,7 @@ export interface Order {
   delivery_address?: string;
   pickup_time?: string;
   party_size?: number;
-  special_instructions?: string;
+  notes?: string;
   created_at: string;
   updated_at: string;
 }

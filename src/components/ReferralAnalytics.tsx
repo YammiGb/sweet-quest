@@ -149,7 +149,7 @@ const ReferralAnalytics: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
                       <div className="text-sm font-medium text-gray-900">{order.customer_name}</div>
-                      <div className="text-sm text-gray-500">{order.customer_phone}</div>
+                      <div className="text-sm text-gray-500">{order.contact_number}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
