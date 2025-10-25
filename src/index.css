@@ -46,14 +46,14 @@ img {
   height: 1px;
 }
 
-/* Import Nunito - a playful but reliable web font */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
+/* Import Fredoka One - a playful font similar to Comic Sans MS */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Fredoka:wght@300;400;500;600;700&display=swap');
 
 /* Font rendering fixes for mobile devices */
 .font-sweet {
-  font-family: 'Nunito', 'Comic Sans MS', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: 'Fredoka', 'Fredoka One', 'Comic Sans MS', cursive, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-style: normal !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -61,7 +61,7 @@ img {
 
 /* Ensure all text elements use proper font stack */
 h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, label {
-  font-family: 'Nunito', 'Comic Sans MS', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Fredoka', 'Fredoka One', 'Comic Sans MS', cursive, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-style: normal;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
