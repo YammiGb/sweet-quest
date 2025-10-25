@@ -22,7 +22,7 @@ export default {
         }
       },
       fontFamily: {
-        'sweet': ['Comic Sans MS', 'Marker Felt', 'Chalkduster', 'Bradley Hand', 'Brush Script MT', 'cursive', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        'sweet': ['Quicksand', 'Fredoka', 'Nunito', 'Comic Sans MS', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
         'sweet-serif': ['Georgia', 'Times New Roman', 'serif'],
         'sweet-display': ['Impact', 'Arial Black', 'system-ui', 'sans-serif']
       },

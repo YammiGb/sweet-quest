@@ -46,20 +46,24 @@ img {
   height: 1px;
 }
 
-/* Use system fonts that are playful and available on mobile */
+/* Preload and import multiple playful fonts for better mobile support */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');
+
+/* Force the font to load and prevent cursive fallback */
 .font-sweet {
-  font-family: 'Comic Sans MS', 'Marker Felt', 'Chalkduster', 'Bradley Hand', 'Brush Script MT', cursive, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-family: 'Quicksand', 'Fredoka', 'Nunito', 'Comic Sans MS', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
   font-style: normal !important;
-  font-weight: normal !important;
+  font-weight: 600 !important;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-display: swap;
 }
 
 /* Ensure all text elements use proper font stack */
 h1, h2, h3, h4, h5, h6, p, span, div, button, input, textarea, label {
-  font-family: 'Comic Sans MS', 'Marker Felt', 'Chalkduster', 'Bradley Hand', 'Brush Script MT', cursive, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-style: normal;
+  font-family: 'Quicksand', 'Fredoka', 'Nunito', 'Comic Sans MS', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-style: normal !important;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
