@@ -22,9 +22,9 @@ export default {
         }
       },
       fontFamily: {
-        'sweet': ['Comic Sans MS', 'cursive', 'system-ui', 'sans-serif'],
-        'sweet-serif': ['Georgia', 'serif'],
-        'sweet-display': ['Impact', 'Arial Black', 'sans-serif']
+        'sweet': ['Comic Sans MS', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        'sweet-serif': ['Georgia', 'Times New Roman', 'serif'],
+        'sweet-display': ['Impact', 'Arial Black', 'system-ui', 'sans-serif']
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

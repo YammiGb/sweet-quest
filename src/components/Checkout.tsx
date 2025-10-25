@@ -433,7 +433,7 @@ Please confirm this order to proceed. Thank you for choosing Sweet Quest! 🍯
                   <p className="text-sm text-sweet-text-light mb-1">{selectedPaymentMethod.name}</p>
                   <p className="font-mono text-sweet-dark font-sweet font-bold">{selectedPaymentMethod.account_number}</p>
                   <p className="text-sm text-sweet-text-light mb-3">Account Name: {selectedPaymentMethod.account_name}</p>
-                  <p className="text-xl font-sweet font-bold text-sweet-green">Amount: ₱{totalPrice}</p>
+                  <p className="text-xl font-sweet font-bold text-sweet-dark">Amount: ₱{totalPrice}</p>
                 </div>
                 <div className="flex-shrink-0">
                   <img 
